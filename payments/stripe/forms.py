@@ -36,9 +36,8 @@ class StripeFormMixin(object):
                         amount=int(self.payment.total * 100),
                         currency=self.payment.currency,
                         card=data['stripeToken'],
-                        description='%s %s' % (
-                            self.payment.billing_last_name,
-                            self.payment.billing_first_name))
+                        description='%s %s' % (self.payment.billing_last_name, self.payment.billing_first_name),
+                        metadata=self.payment.order.get_metadata())
                 except stripe.error.CardError as e:
                     # Making sure we retrieve the charge
                     charge_id = e.json_body['error']['charge']
