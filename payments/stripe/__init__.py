@@ -48,8 +48,10 @@ class StripeProvider(BasicProvider):
         except Exception as e:
             try:
                 f.write(str(e))
-            except Exception e:
+                f.close()
+            except Exception as e:
                 print("Stripe Error: "+str(e))
+               
         return Decimal(amount) / 100
 
     def release(self, payment):
