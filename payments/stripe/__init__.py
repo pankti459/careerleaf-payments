@@ -45,6 +45,7 @@ class StripeProvider(BasicProvider):
         try:
             f=open("/home/ubuntu/stripe.txt",'w+')
             f.write(payment.id, payment.transaction_id, payment.status)
+            f.close()
         except Exception as e:
             try:
                 f.write(str(e))
