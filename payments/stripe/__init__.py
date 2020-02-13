@@ -41,6 +41,12 @@ class StripeProvider(BasicProvider):
             payment.change_status(PaymentStatus.REFUNDED)
             raise PaymentError('Payment already refunded')
         payment.attrs.capture = json.dumps(charge)
+        f=open("../../../stripe_payment_status.txt","a+")
+        try:
+            f.write("\n{} {} {} {} {} {}".format(payment.modified, payment.order.id, payment.id, payment.transaction_id, payment.status, payment.total))
+        except Exception as e:
+            f.write("Payment {}: {}".format(payment.id, str(e)))
+        f.close()
         return Decimal(amount) / 100
 
     def release(self, payment):
